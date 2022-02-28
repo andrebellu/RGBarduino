@@ -7,6 +7,7 @@ import json
 
 
 ser = serial.Serial('COM4')
+print(ser)
 
 with open("settings.json", "r") as file:
     data = json.load(file)
@@ -16,6 +17,11 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+
+def is_open():
+    if not ser.isOpen():
+        ser.open()
+        print("Serial open")
 
 def restricted(func):
     @wraps(func)
@@ -29,7 +35,8 @@ def restricted(func):
     return wrapped
 
 def start(update: tg.Update, context: CallbackContext):
-    """Send a message when the command /start is issued."""
+    is_open()
+    
     user = update.effective_user
     id = update.effective_user.id
     print(fr'user: {id}')
@@ -39,7 +46,7 @@ def start(update: tg.Update, context: CallbackContext):
         reply_markup=tg.ForceReply(selective=True),
     )
 
-    reply_keyboard = [['/on', '/off', '/color', '/blink'], ['/disco']]
+    reply_keyboard = [['/on', '/off', '/color', '/blink'], ['/disco', '/quit']]
 
     update.message.reply_text(
         'Choose an option:',
@@ -71,7 +78,6 @@ def color(update: tg.Update, context: CallbackContext) -> None:
     update.message.reply_text('Choose a color:', reply_markup=reply_markup)
 
 def button(update: tg.Update, context: CallbackContext) -> None:
-    """Parses the CallbackQuery and updates the message text."""
     query = update.callback_query
 
     query.answer()
@@ -143,9 +149,14 @@ def disco(update: tg.Update, context: CallbackContext) -> None:
     ser.write("disco".encode())
 
 @restricted
-def done(update: tg.Update, context: CallbackContext) -> None:
+def quit(update: tg.Update, context: CallbackContext) -> None:
+    ser.write("off".encode())
     ser.close()
     print("Serial closed")
+    update.message.reply_text(
+        fr"La seriale è stata chiusa\, per riaprirla usa il comando '\start'." "\n" "Ciao!"
+    )
+
 
 def main() -> None:
     update = Updater(data['TOKEN'], use_context=True)
@@ -154,7 +165,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("start", start, Filters.user(user_id=data['admins'])))
     dispatcher.add_handler(CommandHandler("on", on))
     dispatcher.add_handler(CommandHandler("off", off))
-    dispatcher.add_handler(CommandHandler("done", done))
+    dispatcher.add_handler(CommandHandler("quit", quit))
     dispatcher.add_handler(CommandHandler("fastblink", fastblink))
     dispatcher.add_handler(CommandHandler("disco", disco))
 
