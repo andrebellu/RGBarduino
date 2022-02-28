@@ -1,4 +1,4 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, CallbackQueryHandler, ConversationHandler
 from functools import wraps
 import telegram as tg
 import logging
@@ -8,7 +8,7 @@ import json
 
 ser = serial.Serial('COM4')
 
-with open("RGBarduino\settings.json", "r") as file:
+with open("settings.json", "r") as file:
     data = json.load(file)
 
 logging.basicConfig(
@@ -22,24 +22,94 @@ def restricted(func):
     def wrapped(update, context, *args, **kwargs):
         user_id = update.effective_user.id
         if user_id not in data['admins']:
-            print("Unauthorized access denied for {}.".format(user_id))
+            print(fr"Unauthorized access denied for {user_id}.")
+            update.message.reply_markdown_v2(fr"Access denied for {update.effective_user.mention_markdown_v2()}\!")
             return
         return func(update, context, *args, **kwargs)
     return wrapped
 
-def start(update: tg.Update, context: CallbackContext) -> None:
+def start(update: tg.Update, context: CallbackContext):
     """Send a message when the command /start is issued."""
     user = update.effective_user
     id = update.effective_user.id
+    print(fr'user: {id}')
+
     update.message.reply_markdown_v2(
         fr'Hi {user.mention_markdown_v2()}\!',
         reply_markup=tg.ForceReply(selective=True),
     )
 
-    if id not in data['admins']:
-        update.message.reply_markdown_v2("Non sei autorizzato\, scimmia!")
+    reply_keyboard = [['/on', '/off', '/color', '/blink'], ['/disco']]
 
-@restricted  
+    update.message.reply_text(
+        'Choose an option:',
+        reply_markup=tg.ReplyKeyboardMarkup(
+            reply_keyboard, one_time_keyboard=False, input_field_placeholder='Option?'
+        ),
+    )
+
+@restricted
+def color(update: tg.Update, context: CallbackContext) -> None:
+    inline_keyboard = [
+        [
+            tg.InlineKeyboardButton("Red", callback_data='Red'),
+            tg.InlineKeyboardButton("Green", callback_data='Green'),
+        ],
+        [
+            tg.InlineKeyboardButton("Blue", callback_data='Blue'),
+            tg.InlineKeyboardButton("Yellow", callback_data='Yellow'),
+            
+        ],
+        [
+            tg.InlineKeyboardButton("Purple", callback_data='Purple'),
+            tg.InlineKeyboardButton("Light Blue", callback_data='Light blue'),
+        ]
+    ]
+
+    reply_markup = tg.InlineKeyboardMarkup(inline_keyboard)
+
+    update.message.reply_text('Choose a color:', reply_markup=reply_markup)
+
+def button(update: tg.Update, context: CallbackContext) -> None:
+    """Parses the CallbackQuery and updates the message text."""
+    query = update.callback_query
+
+    query.answer()
+
+    query.edit_message_text(text=f"{query.data} on")
+
+    if query.data == "Red":
+        red()
+    elif query.data == "Green":
+        green()
+    elif query.data == "Blue":
+        blue()
+    elif query.data == "Purple":
+        purple()
+    elif query.data == "Yellow":
+        yellow()
+    elif query.data == "Light blue":
+        light_blue()
+
+def red() -> None:
+    ser.write("red".encode())
+    
+def green() -> None:
+    ser.write("green".encode())
+
+def blue() -> None:
+    ser.write("blue".encode())
+
+def yellow() -> None:
+    ser.write("yellow".encode())
+
+def purple() -> None:
+    ser.write("purple".encode())
+
+def light_blue() -> None:
+    ser.write("light blue".encode())
+
+@restricted
 def on(update: tg.Update, context: CallbackContext) -> None:
     update.message.reply_markdown_v2(
         fr"led acceso🔆"
@@ -87,6 +157,9 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("done", done))
     dispatcher.add_handler(CommandHandler("fastblink", fastblink))
     dispatcher.add_handler(CommandHandler("disco", disco))
+
+    dispatcher.add_handler(CommandHandler("color", color))
+    dispatcher.add_handler(CallbackQueryHandler(button))
 
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
     
