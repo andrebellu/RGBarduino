@@ -12,6 +12,8 @@ Il progetto consisteva nel realizzare un circuito con un led RGB utilizzabile tr
 - IR Receiver Module
 - Remote Control
 - Cavi
+#### Circuito Tinkercad
+[<img src="https://raw.githubusercontent.com/andrebellu/RGBarduino/main/RGBarduino/tinkercad.png">](https://www.tinkercad.com/embed/aMiXjegy7TH?editbtn=1%22)
 ---
 #### Librerie utilizzate
 - C++ <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/306px-ISO_C%2B%2B_Logo.svg.png" alt="Arduino Logo" width="25" height="30" style="vertical-align:middle">:
