@@ -4,7 +4,7 @@
 Il progetto consisteva nel realizzare un circuito con un led RGB utilizzabile tramite un telecomando. Abbiamo poi realizzato un bot di telegram interfacciato con arduino tramite python e la sua libreria pyserial.
 
 #### Componenti utilizzati
-- [Elegoo Mega2560](https://www.amazon.it/Elegoo-ATmega2560-ATMEGA16U2-Compatibile-Arduino/dp/B071W7WP35). 
+- [Elegoo Mega2560](https://www.amazon.it/Elegoo-ATmega2560-ATMEGA16U2-Compatibile-Arduino/dp/B071W7WP35)
 - RGB led
 - 3x Resistenze 220Ω
 - LCD1602 Module
