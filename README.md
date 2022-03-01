@@ -1,7 +1,7 @@
 # RGB Arduino Project <img src="https://brandslogos.com/wp-content/uploads/images/large/arduino-logo-1.png" alt="Arduino Logo" width="50" height="50" style="vertical-align:top">
-###### Progetto realizzato da [Andrea Bellu](https://github.com/andrebellu), [Stefano Longhena](https://github.com/StefanoLonghena), [Leonardo Baccalario](https://github.com/LeonardoBaccalario).
-##### Il progetto consisteva nel realizzare un circuito con un led RGB utilizzabile tramite un telecomando. Abbiamo poi realizzato un bot di telegram interfacciato con arduino tramite python e la sua libreria pyserial.
----
+Progetto realizzato da [Andrea Bellu](https://github.com/andrebellu), [Stefano Longhena](https://github.com/StefanoLonghena), [Leonardo Baccalario](https://github.com/LeonardoBaccalario).
+Il progetto consisteva nel realizzare un circuito con un led RGB utilizzabile tramite un telecomando. Abbiamo poi realizzato un bot di telegram interfacciato con arduino tramite python e la sua libreria pyserial.
+
 #### Componenti utilizzati
 - [Elegoo Mega2560](https://www.amazon.it/Elegoo-ATmega2560-ATMEGA16U2-Compatibile-Arduino/dp/B071W7WP35). 
 - RGB led
@@ -48,7 +48,7 @@ def main() -> None:
 
 	dispatcher.add_handler(CommandHandler("disco", disco))
 ```
-L'**Update**r è l'elemento che ci permette di interfacciarci direttamente col bot, mentre il **dispatcher** fa da "controllore". In questo snippet di codice vediamo come, nel caso ricevessimo dall'utente su telegram il comando '**\disco**', verrebbe chiamata la funzione **disco**.
+L'**Updater** è l'elemento che ci permette di interfacciarci direttamente col bot, mentre il **dispatcher** fa da "controllore". In questo snippet di codice vediamo come, nel caso ricevessimo dall'utente su telegram il comando '**\disco**', verrebbe chiamata la funzione **disco**.
 ```py
 #funzione disco
 @restricted
@@ -75,8 +75,8 @@ Quando la funzione **disco** viene chiamata il bot manda semplicemente un messag
  >          return func(update, context, *args, **kwargs)
  >     return wrapped
 > ```
-##### Custom keyboard
-Inizializzata quando il bot viene startato, codice:
+#### Custom keyboard
+Inizializzata quando il bot viene startato. **Codice:**
 ```py
 def start(update: tg.Update, context: CallbackContext):
 	...
@@ -88,10 +88,38 @@ def start(update: tg.Update, context: CallbackContext):
              input_field_placeholder='Option?'),
 		)
 ```
-Output:
+**Output:**
 
-##### Inline keyboard
+<img src="https://raw.githubusercontent.com/andrebellu/RGBarduino/main/RGBarduino/kb.png" alt="kb" width="" height="" style="vertical-align:top">
 
+#### Inline keyboard
+Inizializzata quando viene chimato il comando '/color'. **Codice:**
+```py
+@restricted
+def color(update: tg.Update, context: CallbackContext) -> None:
+    inline_keyboard = [
+        [
+            tg.InlineKeyboardButton("Red", callback_data='Red'),
+            tg.InlineKeyboardButton("Green", callback_data='Green'),
+        ],
+        [
+            tg.InlineKeyboardButton("Blue", callback_data='Blue'),
+            tg.InlineKeyboardButton("Yellow", callback_data='Yellow'),
+            
+        ],
+        [
+            tg.InlineKeyboardButton("Purple", callback_data='Purple'),
+            tg.InlineKeyboardButton("Light Blue", callback_data='Light blue'),
+        ]
+    ]
+
+    reply_markup = tg.InlineKeyboardMarkup(inline_keyboard)
+
+    update.message.reply_text('Choose a color:', reply_markup=reply_markup)
+```
+**Output:**
+
+<img src="https://raw.githubusercontent.com/andrebellu/RGBarduino/main/RGBarduino/inkb.png" alt="inkb" width="" height="" style="vertical-align:top">
 #### Bot commands
 *Tutti i comandi sono preceduti dallo '/'*
 - start: starta il bot;
