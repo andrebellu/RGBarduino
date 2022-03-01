@@ -48,6 +48,8 @@ void loop() {
       digitalWrite(4, LOW);
       digitalWrite(3, LOW);
     }else if(string == "fastblink"){
+      lcd.setCursor(0,0);
+      lcd.print("FAST BLINK!");
       for(int i=0;i<20;i++){
         digitalWrite(5, HIGH);
         digitalWrite(4, HIGH);
@@ -92,6 +94,36 @@ void loop() {
       delay(100);
       lcd.clear();
       disco = false;
+    }else if(string == "red"){
+      lcd.clear();
+      digitalWrite(5, HIGH);
+      digitalWrite(4, LOW);
+      digitalWrite(3, LOW);
+    }else if(string == "green"){
+      lcd.clear();
+      digitalWrite(4, HIGH);
+      digitalWrite(5, LOW);
+      digitalWrite(3, LOW);
+    }else if(string == "blue"){
+      lcd.clear();
+      digitalWrite(3, HIGH);
+      digitalWrite(4, LOW);
+      digitalWrite(5, LOW);
+    }else if(string == "yellow"){
+      lcd.clear();
+      digitalWrite(5, HIGH);
+      digitalWrite(4, HIGH);
+      digitalWrite(3, LOW);
+    }else if(string == "purple"){
+      lcd.clear();
+      digitalWrite(5, HIGH);
+      digitalWrite(3, HIGH);
+      digitalWrite(4, LOW);
+    }else if(string == "light blue"){
+      lcd.clear();
+      digitalWrite(4, HIGH);
+      digitalWrite(3, HIGH);
+      digitalWrite(5, LOW);
     }
   }
   
