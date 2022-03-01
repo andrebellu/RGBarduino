@@ -1,5 +1,6 @@
 # RGB Arduino Project <img src="https://brandslogos.com/wp-content/uploads/images/large/arduino-logo-1.png" alt="Arduino Logo" width="50" height="50" style="vertical-align:top">
-Progetto realizzato da [Andrea Bellu](https://github.com/andrebellu), [Stefano Longhena](https://github.com/StefanoLonghena), [Leonardo Baccalario](https://github.com/LeonardoBaccalario).
+*Progetto realizzato da [Andrea Bellu](https://github.com/andrebellu), [Stefano Longhena](https://github.com/StefanoLonghena), [Leonardo Baccalario](https://github.com/LeonardoBaccalario).*
+
 Il progetto consisteva nel realizzare un circuito con un led RGB utilizzabile tramite un telecomando. Abbiamo poi realizzato un bot di telegram interfacciato con arduino tramite python e la sua libreria pyserial.
 
 #### Componenti utilizzati
