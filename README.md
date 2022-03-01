@@ -121,6 +121,7 @@ def color(update: tg.Update, context: CallbackContext) -> None:
 **Output:**
 
 <img src="https://raw.githubusercontent.com/andrebellu/RGBarduino/main/RGBarduino/inkb.png" alt="inkb" width="" height="" style="vertical-align:top">
+
 #### Bot commands
 *Tutti i comandi sono preceduti dallo '/'*
 - start: starta il bot;
