@@ -6,10 +6,10 @@ import serial
 import json
 
 
-ser = serial.Serial('COM4')
+ser = serial.Serial('COM7')
 print(ser)
 
-with open("settings.json", "r") as file:
+with open("RGBarduino\settings.json", "r") as file:
     data = json.load(file)
 
 logging.basicConfig(
@@ -46,7 +46,7 @@ def start(update: tg.Update, context: CallbackContext):
         reply_markup=tg.ForceReply(selective=True),
     )
 
-    reply_keyboard = [['/on', '/off', '/color', '/blink'], ['/disco', '/quit']]
+    reply_keyboard = [['/on', '/off', '/color', '/fastblink'], ['/disco', '/quit']]
 
     update.message.reply_text(
         'Choose an option:',
@@ -154,7 +154,7 @@ def quit(update: tg.Update, context: CallbackContext) -> None:
     ser.close()
     print("Serial closed")
     update.message.reply_text(
-        fr"La seriale è stata chiusa\, per riaprirla usa il comando '\start'." "\n" "Ciao!"
+        fr"La seriale è stata chiusa, per riaprirla usa il comando '/start'." "\n" "Ciao!"
     )
 
 
