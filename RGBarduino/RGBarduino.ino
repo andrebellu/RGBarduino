@@ -9,6 +9,7 @@
 #define Button_4 0xFF10EF
 #define Button_5 0xFF38C7
 #define Button_6 0xFF5AA5
+#define Button_7 0xFF6897
 
 int receiver = 2; //initialize pin 2 as recevier pin.
 uint32_t Previous; 
@@ -176,6 +177,11 @@ void loop() {
            case Button_4 : digitalWrite(5, LOW); break;
            case Button_5 : digitalWrite(4, LOW); break;
            case Button_6 : digitalWrite(3, LOW); break;
+           case Button_7 : digitalWrite(3, HIGH); 
+                           digitalWrite(5, HIGH);
+                           digitalWrite(4, HIGH);
+                           break;
+           
       }
        
   Serial.println (results.value, HEX); //display HEX results 
