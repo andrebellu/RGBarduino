@@ -141,6 +141,16 @@ def color(update: tg.Update, context: CallbackContext) -> None:
 - disco: sequenza casuale colori.
 - quit: chiude la comunicazione con la seriale
 ---
+#### Tasti telecomando
+- power button: accende/spegne il led (colore bianco);
+- 1: accende il colore rosso;
+- 2: accende il colore verde;
+- 3: accende il colore blu;
+- 4: spegne il colore rosso;
+- 5: spegne il colore verde;
+- 6: spegne il colore blu.
+
+
 > Per far funzionare il bot sarà necessario utilizzare il file .json nella repository ed aggiornarlo col **token** del bot che si vuole utilizzare e aggiungere l'**id** degli utenti autorizzati (l'id degli utenti che non sono autorizzati sono visualizzabili nel terminle del file python durante l'esecuzione del programma).
 > ```json
 > {
